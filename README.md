@@ -1,14 +1,10 @@
 # orthomclToVenn
 
+This is an update of the original orthomclToVenn script written by @philippbayer in order to expand the total amount of groups that can be drawn in the Venn diagram plot. This was achieved using the pyvenn library developed by @tctianchi. It has also been rewritten in Python3.
 
-[![DOI](https://zenodo.org/badge/62373018.svg)](https://zenodo.org/badge/latestdoi/62373018)
+This script takes the output from OrthoMCL, gives you the number of either ortholog clusters or genes shared between clusters, includes the number of genes that are not in clusters, and returns a Venn diagram up to 6 different groups. 
 
-
-I could not find a script that takes the output from OrthoMCL, gives you the number of genes in shared clusters between groups, includes the number of genes that are not in clusters, and then makes a Venn diagram, so I made one. I first used https://github.com/apetkau/orthomcl-pipeline but that one prints shared clusters only and does not care about singletons that are not contained in any clusters.
-
-WARNING: Currently this script is extremely untested, and can only make Venn diagrams for 2 or 3 groups. It will however still give you the number of shared genes and shared groups for 1-infinity families, so you can plug those numbers into whatever software you use to draw Venn diagrams.
-
-Currently, the Venn diagram contains only the shared genes, not the shared clusters (this is an easy fix though).
+WARNING: Although this script can make Venn diagrams up to 6 groups, it will still give you the number of shared genes and shared groups for 1 to infinity families, so you can plug those numbers into whatever software you use to draw Venn diagrams in case of requiring a greater number of groups.
 
 Weighted Venn diagram:
 
@@ -20,8 +16,8 @@ Unweighted Venn diagram:
 
 # Requirements
 
-- python2.7, at least
-- python packages: `matplotlib_venn` (`pip install matplotlib_venn`)
+- python 3
+- python packages: `matplotlib` (`pip install matplotlib`)
 
 # How to run it
 
@@ -44,20 +40,20 @@ There is a tiny example input dataset in the `example_data` folder, compare with
 ## Running it
 
 ```
-python2.7 OrthomclToVenn.py -h
-usage: OrthomclToVenn.py [-h] groups singletons families figure table
+python3 OrthomclToVenn.py -h
+usage: OrthomclToVenn.py [-h] groups singletons families figure_name table_name
 
 Parses orthomcl groups.txt and singletons, plots a Venn diagram of the number
 of genes in shared and non-shared clusters
 
-positional arguments:
+Positional arguments:
     groups      Path to groups.txt
     singletons  Path to singletons file (use orthomclSingletons, part of
     orthomcl)
     families    Path to file detailing groups of species/families - see README
-    figure      Output path for final figure of shared genes (add .svg for SVG picture, add .png
+    figure_name      Output path for final figure of shared genes (add .svg for SVG picture, add .png
                 for PNG etc.)
-    table       Output path for final table of groups
+    table_name       Output path for final table of groups
 
     optional arguments:
         -h, --help  show this help message and exit
@@ -65,7 +61,7 @@ positional arguments:
 
 So for example:
 
-    python2.7 OrthomclToVenn.py groups.txt singletons.txt \
+    python3 OrthomclToVenn.py groups.txt singletons.txt \
         dalbergiods_millettoids_galegoids.txt figure.png dalbergiods_millettoids_galegoids_table.csv
 
 It should then print something like:
@@ -94,7 +90,3 @@ The table it prints out is also contained in `dalbergiods_millettoids_galegoids_
 It collects the species that occur in each of the groups reported by OrthoMCL. If all genes in the group belong to only one of the user-supplied families then all genes in that cluster belong to that one family. If genes from species that appear in two families are in that cluster, then all genes in that cluster are shared between the two families, etc. pp. As the last step it will count all genes not in any OrthoMCL groups and will add them to the relevant families, these genes can't be shared.
 
 # TODO
-
-- Currently, `matplotlib_venn` only supports venn2 and venn3, no venn4,5,6,7... It also does not support the famous Banana Venn.
-- add tests :(
-- ~~add test data~~
