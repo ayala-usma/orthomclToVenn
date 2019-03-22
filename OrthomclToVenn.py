@@ -1,8 +1,9 @@
+#Importing required modules
 import logging
 import itertools
 import sys
 from argparse import ArgumentParser
-import matplotlib_venn
+import venn
 from matplotlib import pyplot as plt
 
 WRONG_FAMILIES_ERROR = """families file "NAME" does not seem to have correct format.
